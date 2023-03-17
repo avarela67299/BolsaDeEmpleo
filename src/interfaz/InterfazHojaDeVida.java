@@ -1,7 +1,9 @@
 package interfaz;
+import bolsadeempleo.Aspirante;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class InterfazHojaDeVida extends JFrame{
     JLabel titulo = new JLabel();
@@ -12,7 +14,7 @@ public class InterfazHojaDeVida extends JFrame{
     JLabel profesionLabel = new JLabel();
     JLabel telefonoLabel = new JLabel();
     JButton guardar = new JButton();
-    JButton cancelar = new JButton();
+    JButton cerrar = new JButton();
     
     JTextField cedulaText = new JTextField();
     JTextField nombreText = new JTextField();
@@ -20,6 +22,8 @@ public class InterfazHojaDeVida extends JFrame{
     JTextField experienciaText = new JTextField();
     JTextField profesionText = new JTextField();
     JTextField telefonoText = new JTextField();
+    
+    ArrayList <Aspirante> aspirantes = new ArrayList();
 
     
     public InterfazHojaDeVida(){
@@ -128,14 +132,14 @@ public class InterfazHojaDeVida extends JFrame{
             } 
         });
     
-    this.cancelar.setText("cancelar");
+    this.cerrar.setText("cerrar");
     gridConstraints.gridx = 1;
     gridConstraints.gridy = 7;
     gridConstraints.anchor = GridBagConstraints.WEST;
-    getContentPane().add(this.cancelar, gridConstraints);
-    cancelar.addActionListener(new ActionListener() {
+    getContentPane().add(this.cerrar, gridConstraints);
+    cerrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                cancelarActionPerformed(e);
+                cerrarActionPerformed(e);
             } 
         });
     pack();
@@ -150,13 +154,41 @@ public class InterfazHojaDeVida extends JFrame{
     
     }
     
-    //métodos para cada botón
+    //guardar nuevo aspirante en ArrayList aspirantes 
     private void guardarActionPerformed(ActionEvent e) {
+        try {
+            String cedula = this.cedulaText.getText();
+            String nombre = this.nombreText.getSelectedText();
+            int edad = Integer.parseInt(this.edadText.getText());
+            int experiencia = Integer.parseInt(this.experienciaText.getText());
+            String profesion = this.profesionText.getText();
+            String telefono = this.telefonoLabel.getText();
+            Aspirante nuevoAspirante = new Aspirante(cedula,nombre,edad,experiencia,profesion,telefono);
+            
+            //TODO: Verificar que no se repitan los atributos u
+            aspirantes.add(nuevoAspirante);
+            JOptionPane.showMessageDialog(null, "nuevo aspirante guardado", null,JOptionPane.CLOSED_OPTION);
+            resetearCampos();
+        }
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "input inválido", null, JOptionPane.ERROR_MESSAGE);
+            resetearCampos();
+        }
 
     }
     
-    private void cancelarActionPerformed(ActionEvent e) {
+    private void cerrarActionPerformed(ActionEvent e) {
         setVisible(false);          
+    }
+    
+    //resetear los campos de texto
+    private void resetearCampos(){
+        this.cedulaText.setText("");
+        this.nombreText.setText("");
+        this.edadText.setText("");
+        this.experienciaText.setText("");
+        this.profesionText.setText("");
+        this.telefonoText.setText("");
     }
 
     

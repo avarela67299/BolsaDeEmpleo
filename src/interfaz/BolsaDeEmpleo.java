@@ -139,7 +139,6 @@ public class BolsaDeEmpleo extends JFrame{
      
     private void nuevaHojaActionPerformed(ActionEvent e) {
     new InterfazHojaDeVida().show();
-    Aspirante alejo = new Aspirante("123","Alejo",3,3,"programer", "559");
     }
     
     private void listaCedulasActionPerformed(ActionEvent e) {
