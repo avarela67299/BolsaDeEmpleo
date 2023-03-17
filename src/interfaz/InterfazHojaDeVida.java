@@ -165,7 +165,7 @@ public class InterfazHojaDeVida extends JFrame{
             String telefono = this.telefonoLabel.getText();
             Aspirante nuevoAspirante = new Aspirante(cedula,nombre,edad,experiencia,profesion,telefono);
             
-            //TODO: Verificar que no se repitan los atributos u
+            //TODO: Verificar que no se repitan los atributos únicos
             aspirantes.add(nuevoAspirante);
             JOptionPane.showMessageDialog(null, "nuevo aspirante guardado", null,JOptionPane.CLOSED_OPTION);
             resetearCampos();
