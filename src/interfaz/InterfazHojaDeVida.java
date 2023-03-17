@@ -27,7 +27,7 @@ public class InterfazHojaDeVida extends JFrame{
 
     
     public InterfazHojaDeVida(){
-    setTitle("Bolsa de empleo");
+    setTitle("Hoja de vida");
     addWindowListener(new WindowAdapter() {
         public void windowClosing(WindowEvent e){
             setVisible(false);
@@ -147,10 +147,10 @@ public class InterfazHojaDeVida extends JFrame{
     
     //empezar en la mitad de la pantalla
     Dimension screenSize =
-                Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((int) (0.5 * (screenSize.width -
-                getWidth())), (int) (0.5 * (screenSize.height -
-                getHeight())), getWidth(), getHeight());
+    Toolkit.getDefaultToolkit().getScreenSize();
+    setBounds((int) (0.5 * (screenSize.width -
+    getWidth())), (int) (0.5 * (screenSize.height -
+    getHeight())), getWidth(), getHeight());
     
     }
     

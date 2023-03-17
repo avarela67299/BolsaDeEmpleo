@@ -154,6 +154,7 @@ public class BolsaDeEmpleo extends JFrame{
     }
     
     private void buscarActionPerformed(ActionEvent e) {
+        new InterfazBuscar().show();
         
     }
     
