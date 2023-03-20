@@ -1,4 +1,5 @@
 package interfaz;
+import bolsadeempleo.Aspirante;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,6 +15,19 @@ public class InterfazBuscar extends JFrame {
     JTextField text = new JTextField();
     JButton buscar = new JButton();
     JButton cerrar = new JButton();
+    
+    JPanel busqueda = new JPanel();
+    JLabel cedulaLabel = new JLabel();
+    JLabel nombreLabel = new JLabel();
+    JLabel edadLabel = new JLabel();
+    JLabel experienciaLabel = new JLabel();
+    JLabel profeciónLabel = new JLabel();
+    JLabel telefonoLabel = new JLabel();
+    ButtonGroup buttonGroupBusqueda = new ButtonGroup();
+    JRadioButton contratar = new JRadioButton();
+    JRadioButton eliminar = new JRadioButton();
+    JRadioButton cancelar = new JRadioButton();
+    JButton ejecutar = new JButton ();
         
     public InterfazBuscar(){
         setTitle("Buscar");
@@ -49,7 +63,7 @@ public class InterfazBuscar extends JFrame {
     this.cedulaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 text.setVisible(true);
-                }
+                } 
             });
     
     this.nombreButton.setText("nombre");
@@ -72,7 +86,7 @@ public class InterfazBuscar extends JFrame {
             public void actionPerformed(ActionEvent e){
                 text.setVisible(false);
                 }
-            });
+            });   
     
     this.jovenButton.setText("más jóven");
     this.buttonGroup.add(jovenButton);
@@ -117,8 +131,7 @@ public class InterfazBuscar extends JFrame {
         });
     
     pack();
-    
-    
+     
     //empezar en la mitad de la pantalla
     Dimension screenSize =
     Toolkit.getDefaultToolkit().getScreenSize();
@@ -129,8 +142,10 @@ public class InterfazBuscar extends JFrame {
     }
     
     private void buscarActionPerformed(ActionEvent e) {
+        Aspirante aspiranteBuscado = null;
+        
         if(cedulaButton.isSelected()){
-          //TODO: buscar con cedula  
+          //TODO: buscar con cédula  
         }
         else if(nombreButton.isSelected()){
             //TODO: buscar con nombre     
@@ -141,8 +156,17 @@ public class InterfazBuscar extends JFrame {
         }
         else if(jovenButton.isSelected()){
             //TODO: buscar el más jóven 
-        }    
-    }
+        }  
+        
+        if (aspiranteBuscado != null){
+            JOptionPane.showMessageDialog(null, "aspirante no existe", null,JOptionPane.CLOSED_OPTION);
+            
+        } else {
+            // desplega la informacion del aplicante
+            new InterfazBusqueda("x","x","x","x","x","x").show();
+        }
+        
+    } 
     
     private void cerrarActionPerformed(ActionEvent e) {
         setVisible(false);          

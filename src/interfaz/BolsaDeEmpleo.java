@@ -9,9 +9,7 @@ public class BolsaDeEmpleo extends JFrame{
     JButton nuevaHoja = new JButton();
     JButton listaCedulas = new JButton();
     JButton listaTotal = new JButton();
-    JButton contratar = new JButton();
     JButton buscar = new JButton();
-    JButton eliminar = new JButton();
     JButton promedio = new JButton();
     JButton cerrar = new JButton();
     
@@ -55,15 +53,16 @@ public class BolsaDeEmpleo extends JFrame{
             } 
         });
         
-        this.listaCedulas.setText("lista de cédulas");
+        this.buscar.setText("buscar");
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 1;
-        getContentPane().add(this.listaCedulas,gridConstraints);
-        listaCedulas.addActionListener(new ActionListener() {
+        getContentPane().add(this.buscar,gridConstraints);
+        buscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                listaCedulasActionPerformed(e);
+                buscarActionPerformed(e);
             } 
         });
+        
         
         this.listaTotal.setText("listaTotal");
         gridConstraints.gridx = 0;
@@ -75,55 +74,35 @@ public class BolsaDeEmpleo extends JFrame{
             } 
         });
         
-        this.contratar.setText("contratar");
+        this.listaCedulas.setText("lista de cédulas");
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 2;
-        getContentPane().add(this.contratar,gridConstraints);
-        contratar.addActionListener(new ActionListener() {
+        getContentPane().add(this.listaCedulas,gridConstraints);
+        listaCedulas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                contratarActionPerformed(e);
-            } 
-        });
-        
-        this.buscar.setText("buscar");
-        gridConstraints.gridx = 0;
-        gridConstraints.gridy = 3;
-        getContentPane().add(this.buscar,gridConstraints);
-        buscar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                buscarActionPerformed(e);
-            } 
-        });
-        
-        this.eliminar.setText("eliminar");
-        gridConstraints.gridx = 1;
-        gridConstraints.gridy = 3;
-        getContentPane().add(this.eliminar,gridConstraints);
-        eliminar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                eliminarActionPerformed(e);
+                listaCedulasActionPerformed(e);
             } 
         });
         
         this.promedio.setText("promedio");
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = 4;
+        gridConstraints.gridy = 3;
         getContentPane().add(this.promedio,gridConstraints);
         promedio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 promedioActionPerformed(e);
             } 
         });
-        
+   
         this.cerrar.setText("cerrar");
         gridConstraints.gridx = 1;
-        gridConstraints.gridy = 4;
+        gridConstraints.gridy = 3;
         getContentPane().add(this.cerrar,gridConstraints);
         cerrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 cerrarActionPerformed(e);
             } 
-        });
+        });    
 
         pack();
 
@@ -142,14 +121,10 @@ public class BolsaDeEmpleo extends JFrame{
     }
     
     private void listaCedulasActionPerformed(ActionEvent e) {
-        
+ 
     }
     
     private void listaTotalActionPerformed(ActionEvent e) {
-        
-    }
-    
-    private void contratarActionPerformed(ActionEvent e) {
         
     }
     
@@ -158,16 +133,12 @@ public class BolsaDeEmpleo extends JFrame{
         
     }
     
-    
-    private void eliminarActionPerformed(ActionEvent e) {
-        
-    }
-    
     private void promedioActionPerformed(ActionEvent e) {
         
     }
       
     private void cerrarActionPerformed(ActionEvent e) {
+        System.exit(0);
     }
         
     private void exitForm(WindowEvent e){
