@@ -1,12 +1,29 @@
 package bolsadeempleo;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable (tableName = "aspirantes")
 public class Aspirante {
+    
+    @DatabaseField(id = true)
     private String cedula;
+    
+    @DatabaseField
     private String nombre;
+    
+    @DatabaseField
     private int edad;
+    
+    @DatabaseField
     private int experiencia;
+    
+    @DatabaseField
     private String profesion;
+    
+    @DatabaseField
     private String telefono;
+    
+    public Aspirante(){}
 
     public Aspirante(String cedula, String nombre, int edad, int experiencia, String profesion, String telefono) {
         this.cedula = cedula;

@@ -1,8 +1,15 @@
 package interfaz;
 import bolsadeempleo.Aspirante;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.logger.Level;
+import com.j256.ormlite.logger.Logger;
+import com.j256.ormlite.support.ConnectionSource;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class InterfazBuscar extends JFrame {
     
@@ -115,7 +122,13 @@ public class InterfazBuscar extends JFrame {
     getContentPane().add(this.buscar,gridConstraints);
     buscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                buscarActionPerformed(e);
+                try {
+                    buscarActionPerformed(e);
+                } catch (SQLException ex) {
+                    java.util.logging.Logger.getLogger(InterfazBuscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    java.util.logging.Logger.getLogger(InterfazBuscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
             }
         });
     
@@ -141,7 +154,7 @@ public class InterfazBuscar extends JFrame {
         
     }
     
-    private void buscarActionPerformed(ActionEvent e) {
+    private void buscarActionPerformed(ActionEvent e) throws SQLException, Exception {
         Aspirante aspiranteBuscado = null;
         
         if(cedulaButton.isSelected()){
@@ -162,8 +175,19 @@ public class InterfazBuscar extends JFrame {
             JOptionPane.showMessageDialog(null, "aspirante no existe", null,JOptionPane.CLOSED_OPTION);
             
         } else {
+            
+            Logger.setGlobalLogLevel(Level.OFF);
+            // Ubicación del archivo de la base de datos
+            String url = "jdbc:h2:file:./BolsaDeEmpleo";
+            ConnectionSource conexion = new JdbcConnectionSource(url);
+            // Obtener acceso a la lista de objetos=>Tabla (DAO)
+            // Primero es la clase de la tabla, Segundo tipo de la llave
+            Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
+            Aspirante karen = listaAspirantes.queryForId("123");
+            karen.toString();
             // desplega la informacion del aplicante
-            new InterfazBusqueda("x","x","x","x","x","x").show();
+            new InterfazBusqueda(karen.getCedula(),karen.getNombre(),String.valueOf(karen.getEdad()),String.valueOf(karen.getExperiencia()),karen.getProfesion(),karen.getTelefono()).show();
+            conexion.close();
         }
         
     } 

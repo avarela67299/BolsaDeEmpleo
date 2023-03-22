@@ -4,6 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.logger.Level;
+import com.j256.ormlite.logger.Logger;
+import com.j256.ormlite.support.ConnectionSource;
+import java.sql.SQLException;
+import java.sql.SQLOutput;
+
 public class BolsaDeEmpleo extends JFrame{
     JLabel titulo = new JLabel();
     JButton nuevaHoja = new JButton();
@@ -13,8 +22,11 @@ public class BolsaDeEmpleo extends JFrame{
     JButton promedio = new JButton();
     JButton cerrar = new JButton();
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+          
         new BolsaDeEmpleo().show();
+        
+        
     }
 
     //constructor

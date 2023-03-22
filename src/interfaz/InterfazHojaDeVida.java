@@ -1,5 +1,11 @@
 package interfaz;
 import bolsadeempleo.Aspirante;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.logger.Level;
+import com.j256.ormlite.logger.Logger;
+import com.j256.ormlite.support.ConnectionSource;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -157,6 +163,18 @@ public class InterfazHojaDeVida extends JFrame{
     //guardar nuevo aspirante en ArrayList aspirantes 
     private void guardarActionPerformed(ActionEvent e) {
         try {
+            
+            Logger.setGlobalLogLevel(Level.OFF);
+            // Ubicación del archivo de la base de datos
+            String url = "jdbc:h2:file:./BolsaDeEmpleo";
+            ConnectionSource conexion =
+                    new JdbcConnectionSource(url);
+            // Obtener acceso a la lista de objetos=>Tabla (DAO)
+            // Primero es la clase de la tabla, Segundo tipo de la llave
+            Dao<Aspirante, String> listaAspirantes =
+                    DaoManager.createDao(conexion, Aspirante.class);
+
+            //creamos objeto
             String cedula = this.cedulaText.getText();
             String nombre = this.nombreText.getSelectedText();
             int edad = Integer.parseInt(this.edadText.getText());
@@ -164,9 +182,11 @@ public class InterfazHojaDeVida extends JFrame{
             String profesion = this.profesionText.getText();
             String telefono = this.telefonoLabel.getText();
             Aspirante nuevoAspirante = new Aspirante(cedula,nombre,edad,experiencia,profesion,telefono);
+            listaAspirantes.create(nuevoAspirante);
+            
+            conexion.close();
             
             //TODO: Verificar que no se repitan los atributos únicos
-            aspirantes.add(nuevoAspirante);
             JOptionPane.showMessageDialog(null, "nuevo aspirante guardado", null,JOptionPane.CLOSED_OPTION);
             resetearCampos();
         }
