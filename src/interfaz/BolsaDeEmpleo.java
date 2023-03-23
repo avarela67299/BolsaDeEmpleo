@@ -12,6 +12,7 @@ import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 public class BolsaDeEmpleo extends JFrame{
     JLabel titulo = new JLabel();
@@ -138,6 +139,14 @@ public class BolsaDeEmpleo extends JFrame{
     
     private void listaTotalActionPerformed(ActionEvent e) {
         
+        ArrayList<Aspirante> aplicantes = new ArrayList<>();
+   
+        for (int i = 0; i < 50; i++) {
+            Aspirante a1 = new Aspirante("123456789", "Juan Perez", i, i*2, "Ingeniero", "555-1234");
+            aplicantes.add(a1);
+        }
+ 
+        new InterfazTablaDatos(aplicantes).show();
     }
     
     private void buscarActionPerformed(ActionEvent e) {
