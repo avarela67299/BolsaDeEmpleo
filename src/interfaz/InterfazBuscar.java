@@ -155,40 +155,44 @@ public class InterfazBuscar extends JFrame {
     }
     
     private void buscarActionPerformed(ActionEvent e) throws SQLException, Exception {
+        
+        //base de datos
+        Logger.setGlobalLogLevel(Level.OFF);
+        String url = "jdbc:h2:file:./BolsaDeEmpleo";
+        ConnectionSource conexion = new JdbcConnectionSource(url);
+        Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
+        
         Aspirante aspiranteBuscado = null;
         
-        if(cedulaButton.isSelected()){
-          //TODO: buscar con cédula  
+        try{
+            if(cedulaButton.isSelected()){
+                
+                aspiranteBuscado = listaAspirantes.queryForId(text.getText());
+            }
+            else if(nombreButton.isSelected()){
+                //TODO: buscar con nombre     
+            }
+            else if (mayorButton.isSelected()){
+                //TODO: buscar el de más experiencia
+
+            }
+            else if(jovenButton.isSelected()){
+                //TODO: buscar el más jóven 
+            }           
         }
-        else if(nombreButton.isSelected()){
-            //TODO: buscar con nombre     
-        }
-        else if (mayorButton.isSelected()){
-            //TODO: buscar el de más experiencia
+        catch(Exception x){}
             
-        }
-        else if(jovenButton.isSelected()){
-            //TODO: buscar el más jóven 
-        }  
-        
-        if (aspiranteBuscado != null){
+        if (aspiranteBuscado == null){
             JOptionPane.showMessageDialog(null, "aspirante no existe", null,JOptionPane.CLOSED_OPTION);
             
         } else {
             
-            Logger.setGlobalLogLevel(Level.OFF);
-            // Ubicación del archivo de la base de datos
-            String url = "jdbc:h2:file:./BolsaDeEmpleo";
-            ConnectionSource conexion = new JdbcConnectionSource(url);
-            // Obtener acceso a la lista de objetos=>Tabla (DAO)
-            // Primero es la clase de la tabla, Segundo tipo de la llave
-            Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
-            Aspirante karen = listaAspirantes.queryForId("123");
-            karen.toString();
             // desplega la informacion del aplicante
-            new InterfazBusqueda(karen.getCedula(),karen.getNombre(),String.valueOf(karen.getEdad()),String.valueOf(karen.getExperiencia()),karen.getProfesion(),karen.getTelefono()).show();
-            conexion.close();
+            new InterfazBusqueda(aspiranteBuscado.getCedula(),aspiranteBuscado.getNombre(),
+            String.valueOf(aspiranteBuscado.getEdad()),String.valueOf(aspiranteBuscado.getExperiencia()),
+            aspiranteBuscado.getProfesion(),aspiranteBuscado.getTelefono()).show();   
         }
+        conexion.close();
         
     } 
     
