@@ -166,16 +166,12 @@ public class InterfazHojaDeVida extends JFrame {
         try {
 
             Logger.setGlobalLogLevel(Level.OFF);
-            // Ubicación del archivo de la base de datos
             String url = "jdbc:h2:file:./BolsaDeEmpleo";
             ConnectionSource conexion
                     = new JdbcConnectionSource(url);
-            // Obtener acceso a la lista de objetos=>Tabla (DAO)
-            // Primero es la clase de la tabla, Segundo tipo de la llave
             Dao<Aspirante, String> listaAspirantes
                     = DaoManager.createDao(conexion, Aspirante.class);
 
-            //creamos objeto,se modifica dejandolo en el constructor
             listaAspirantes.create(new Aspirante(
                     this.cedulaText.getText(),
                     this.nombreText.getText(),

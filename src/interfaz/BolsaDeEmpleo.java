@@ -95,6 +95,8 @@ public class BolsaDeEmpleo extends JFrame {
                     listaTotalActionPerformed(e);
                 } catch (SQLException ex) {
                     java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
             }
         });
@@ -145,16 +147,18 @@ public class BolsaDeEmpleo extends JFrame {
     }
 
     private void listaCedulasActionPerformed(ActionEvent e) {
+        
 
     }
 
     //se agrega lista desde la base de datos
-    private void listaTotalActionPerformed(ActionEvent e) throws SQLException {
+    private void listaTotalActionPerformed(ActionEvent e) throws SQLException, Exception {
         Logger.setGlobalLogLevel(Level.OFF);
         String url = "jdbc:h2:file:./BolsaDeEmpleo";
         ConnectionSource conexion = new JdbcConnectionSource(url);
         Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
         new InterfazTablaDatos((ArrayList<Aspirante>) listaAspirantes.queryForAll()).show();
+        conexion.close();
     }
 
     private void buscarActionPerformed(ActionEvent e) {
