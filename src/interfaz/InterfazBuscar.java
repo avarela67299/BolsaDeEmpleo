@@ -6,6 +6,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.logger.Level;
 import com.j256.ormlite.logger.Logger;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -192,20 +193,53 @@ public class InterfazBuscar extends JFrame {
                     //DONE: buscar con nombre   
                     aspirantesBuscados.addAll(listaAspirantes.queryForEq("nombre", text.getText()));
                 } else if (mayorButton.isSelected()) {
-                    //TODO: buscar el de más experiencia
-                    Aspirante mayorExperiencia = new Aspirante();
+                    //DONE: buscar el de más experiencia
 
-                    for (Aspirante aspirante : listaAspirantes.queryForAll()) {
-                        if (aspirante.getExperiencia() >= mayorExperiencia.getExperiencia()) {
-                            mayorExperiencia = aspirante;
-                        }
+                    QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
+                    queryBuilder.orderBy("experiencia", false);
+                    queryBuilder.limit(1L);
+                    List<Aspirante> resultado = listaAspirantes.query(queryBuilder.prepare());
+
+                    if (!resultado.isEmpty()) {
+                        // Obtener el valor máximo de experiencia de la lista completa
+                        int experienciaMaxima = resultado.get(0).getExperiencia();
+
+                        // Crear una nueva consulta para obtener todos los aspirantes con la experiencia máxima
+                        queryBuilder = listaAspirantes.queryBuilder();
+                        queryBuilder.where().eq("experiencia", experienciaMaxima);
+
+                        List<Aspirante> aspirantesConMaxExperiencia = listaAspirantes.query(queryBuilder.prepare());
+
+                        // Agregar los aspirantes con experiencia máxima a la lista
+                        aspirantesBuscados.addAll(aspirantesConMaxExperiencia);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontraron aspirantes con experiencia", null, JOptionPane.CLOSED_OPTION);
                     }
-                    aspirantesBuscados.clear();
-                    aspirantesBuscados.add(mayorExperiencia);
 
                 } else if (jovenButton.isSelected()) {
-                    //TODO: buscar el más jóven 
-                    aspirantesBuscados.addAll(listaAspirantes.queryForEq("nombre", text.getText()));
+                    //DONE: buscar el más jóven 
+
+                    QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
+                    queryBuilder.orderBy("edad", true);
+                    queryBuilder.limit(1L);
+                    List<Aspirante> resultado = listaAspirantes.query(queryBuilder.prepare());
+
+                    if (!resultado.isEmpty()) {
+                        // Obtener el valor minimo de edad de la lista completa
+                        int edadMinima = resultado.get(0).getEdad();
+
+                        // Crear una nueva consulta para obtener todos los aspirantes con la edadminima
+                        queryBuilder = listaAspirantes.queryBuilder();
+                        queryBuilder.where().eq("edad", edadMinima);
+
+                        List<Aspirante> aspirantesConedadminima = listaAspirantes.query(queryBuilder.prepare());
+
+                        // Agregar los aspirantes con eedadminima a la lista
+                        aspirantesBuscados.addAll(aspirantesConedadminima);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontraron aspirantes con edad minima", null, JOptionPane.CLOSED_OPTION);
+                    }
+
                 }
             }
         } catch (Exception x) {
@@ -214,10 +248,8 @@ public class InterfazBuscar extends JFrame {
         if (aspirantesBuscados == null || aspirantesBuscados.isEmpty() && !text.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El aspirante buscado no se encuentra registrado", null, JOptionPane.CLOSED_OPTION);
         } else {
-                // desplega la informacion del aplicante
+            // desplega la informacion del aplicante
             new InterfazTablaDatos((ArrayList<Aspirante>) aspirantesBuscados).show();
-
-        
 
         }
         conexion.close();
