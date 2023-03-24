@@ -1,20 +1,29 @@
 package interfaz;
-import bolsadeempleo.Aspirante;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
+import bolsadeempleo.Aspirante;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.logger.Level;
 import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.support.ConnectionSource;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
-public class BolsaDeEmpleo extends JFrame{
+public class BolsaDeEmpleo extends JFrame {
+
     JLabel titulo = new JLabel();
     JButton nuevaHoja = new JButton();
     JButton listaCedulas = new JButton();
@@ -22,19 +31,18 @@ public class BolsaDeEmpleo extends JFrame{
     JButton buscar = new JButton();
     JButton promedio = new JButton();
     JButton cerrar = new JButton();
-    
+
     public static void main(String[] args) throws SQLException {
-          
+
         new BolsaDeEmpleo().show();
-        
-        
+
     }
 
     //constructor
-    public BolsaDeEmpleo(){
+    public BolsaDeEmpleo() {
         setTitle("Bolsa de empleo");
         addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e){
+            public void windowClosing(WindowEvent e) {
                 exitForm(e);
             }
         });
@@ -42,7 +50,7 @@ public class BolsaDeEmpleo extends JFrame{
         //diseño del frame
         getContentPane().setLayout(new GridBagLayout());
         GridBagConstraints gridConstraints = new GridBagConstraints();
-        
+
         //añadir controles al frame
         this.titulo.setText("GESTIONE A SUS ASPIRANTES");
         this.titulo.setFont(new Font(getName(), Font.PLAIN, 14));
@@ -51,118 +59,118 @@ public class BolsaDeEmpleo extends JFrame{
         gridConstraints.gridwidth = 2;
         gridConstraints.ipady = 40;
         gridConstraints.anchor = GridBagConstraints.NORTH;
-        getContentPane().add(this.titulo,gridConstraints);
-        
+        getContentPane().add(this.titulo, gridConstraints);
+
         this.nuevaHoja.setText("nueva hoja");
         gridConstraints.gridx = 0;
         gridConstraints.gridy = 1;
         gridConstraints.gridwidth = 1;
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.anchor = GridBagConstraints.CENTER;
-        getContentPane().add(this.nuevaHoja,gridConstraints);
+        getContentPane().add(this.nuevaHoja, gridConstraints);
         nuevaHoja.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 nuevaHojaActionPerformed(e);
-            } 
+            }
         });
-        
+
         this.buscar.setText("buscar");
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 1;
-        getContentPane().add(this.buscar,gridConstraints);
+        getContentPane().add(this.buscar, gridConstraints);
         buscar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 buscarActionPerformed(e);
-            } 
+            }
         });
-        
-        
+
+        //se agrega catch
         this.listaTotal.setText("listaTotal");
         gridConstraints.gridx = 0;
         gridConstraints.gridy = 2;
-        getContentPane().add(this.listaTotal,gridConstraints);
+        getContentPane().add(this.listaTotal, gridConstraints);
         listaTotal.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                listaTotalActionPerformed(e);
-            } 
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    listaTotalActionPerformed(e);
+                } catch (SQLException ex) {
+                    java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+            }
         });
-        
+
         this.listaCedulas.setText("lista de cédulas");
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 2;
-        getContentPane().add(this.listaCedulas,gridConstraints);
+        getContentPane().add(this.listaCedulas, gridConstraints);
         listaCedulas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 listaCedulasActionPerformed(e);
-            } 
+            }
         });
-        
+
         this.promedio.setText("promedio");
         gridConstraints.gridx = 0;
         gridConstraints.gridy = 3;
-        getContentPane().add(this.promedio,gridConstraints);
+        getContentPane().add(this.promedio, gridConstraints);
         promedio.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 promedioActionPerformed(e);
-            } 
+            }
         });
-   
+
         this.cerrar.setText("cerrar");
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 3;
-        getContentPane().add(this.cerrar,gridConstraints);
+        getContentPane().add(this.cerrar, gridConstraints);
         cerrar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 cerrarActionPerformed(e);
-            } 
-        });    
+            }
+        });
 
         pack();
 
         //empezar en la mitad de la pantalla
-        Dimension screenSize =
-                Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((int) (0.5 * (screenSize.width -
-                getWidth())), (int) (0.5 * (screenSize.height -
-                getHeight())), getWidth(), getHeight());
+        Dimension screenSize
+                = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((int) (0.5 * (screenSize.width
+                - getWidth())), (int) (0.5 * (screenSize.height
+                - getHeight())), getWidth(), getHeight());
     }
-    
+
     //métodos para cada botón
-     
     private void nuevaHojaActionPerformed(ActionEvent e) {
-    new InterfazHojaDeVida().show();
+        new InterfazHojaDeVida().show();
     }
-    
+
     private void listaCedulasActionPerformed(ActionEvent e) {
- 
+
     }
-    
-    private void listaTotalActionPerformed(ActionEvent e) {
-        
-        ArrayList<Aspirante> aplicantes = new ArrayList<>();
-   
-        for (int i = 0; i < 50; i++) {
-            Aspirante a1 = new Aspirante("123456789", "Juan Perez", i, i*2, "Ingeniero", "555-1234");
-            aplicantes.add(a1);
-        }
- 
-        new InterfazTablaDatos(aplicantes).show();
+
+    //se agrega lista desde la base de datos
+    private void listaTotalActionPerformed(ActionEvent e) throws SQLException {
+        Logger.setGlobalLogLevel(Level.OFF);
+        String url = "jdbc:h2:file:./BolsaDeEmpleo";
+        ConnectionSource conexion = new JdbcConnectionSource(url);
+        Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
+        new InterfazTablaDatos((ArrayList<Aspirante>) listaAspirantes.queryForAll()).show();
     }
-    
+
     private void buscarActionPerformed(ActionEvent e) {
         new InterfazBuscar().show();
-        
+
     }
-    
+
     private void promedioActionPerformed(ActionEvent e) {
-        
+
     }
-      
+
     private void cerrarActionPerformed(ActionEvent e) {
         System.exit(0);
     }
-        
-    private void exitForm(WindowEvent e){
+
+    private void exitForm(WindowEvent e) {
         System.exit(0);
     }
 }
