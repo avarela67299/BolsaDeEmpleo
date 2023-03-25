@@ -41,7 +41,7 @@ public class InterfazHojaDeVida extends JFrame {
             }
         });
 
-        //diseño del frame
+        //diseño de la ventana
         getContentPane().setLayout(new GridBagLayout());
         GridBagConstraints gridConstraints = new GridBagConstraints();
 
