@@ -24,8 +24,10 @@ public class InterfazTablaDatos extends JFrame {
     JButton eliminarButton = new JButton("eliminar");
     JButton cerrarButton = new JButton("cerrar");
     JPanel panelBotones = new JPanel();
+    ArrayList <Aspirante> aspirantesBuscados = new ArrayList();
           
     public InterfazTablaDatos (ArrayList<Aspirante> aplicantes){
+        aspirantesBuscados = aplicantes;
         getContentPane().setLayout(new GridBagLayout());
         panelBotones.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -88,7 +90,7 @@ public class InterfazTablaDatos extends JFrame {
                 cerrarActionPerformed(e);
             } 
 
-        });
+        }); 
         
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -107,7 +109,6 @@ public class InterfazTablaDatos extends JFrame {
     private void contratarActionPerformed(ActionEvent e) throws SQLException, Exception {
         
         int fila = table.getSelectedRow();
-        System.out.println(fila);
 
         Logger.setGlobalLogLevel(Level.OFF);
         String url = "jdbc:h2:file:./BolsaDeEmpleo";
@@ -118,7 +119,9 @@ public class InterfazTablaDatos extends JFrame {
             JOptionPane.showMessageDialog(null, "seleccione una fila", null, JOptionPane.ERROR_MESSAGE);
         }
         else{
-            Aspirante contratado = listaAspirantes.queryForAll().get(fila);
+            
+            Aspirante contratado = listaAspirantes.queryForId(aspirantesBuscados.get(fila).getCedula());
+            
             int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de contratar este aspirante " + contratado.getNombre()+"?");
             if (confirmacion == JOptionPane.YES_OPTION){
                 listaAspirantes.delete(contratado);   
@@ -163,7 +166,7 @@ public class InterfazTablaDatos extends JFrame {
             
         }
         else{
-            Aspirante contratado = listaAspirantes.queryForAll().get(fila);
+            Aspirante contratado = listaAspirantes.queryForId(aspirantesBuscados.get(fila).getCedula());
             int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de elimirar el aspirante " + contratado.getNombre()+"?");
             if (confirmacion == JOptionPane.YES_OPTION){
                 listaAspirantes.delete(contratado);   
