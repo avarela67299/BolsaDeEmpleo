@@ -211,20 +211,67 @@ public class BolsaDeEmpleo extends JFrame {
         } catch (SQLException f) {
             JOptionPane.showMessageDialog(null, "Error al calcular el promedio de edad: " + f.getMessage(), null, JOptionPane.ERROR_MESSAGE);
         }
+
+        conexion.close();
+
+    }
+//DONE:Ordenarexperiencia
+
+    private void ordenarExperienciaActionPerformed(ActionEvent e) throws SQLException, Exception {
+        Logger.setGlobalLogLevel(Level.OFF);
+        String url = "jdbc:h2:file:./BolsaDeEmpleo";
+        ConnectionSource conexion = new JdbcConnectionSource(url);
+        Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
+
+        QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
+        queryBuilder.orderBy("experiencia", true); // ordenar por experiencia de forma ascendente
+        List<Aspirante> aspirantes = listaAspirantes.query(queryBuilder.prepare());
+
+        new InterfazTablaDatos((ArrayList<Aspirante>) aspirantes).show();
+
         conexion.close();
     }
+//DONE:Ordenaredad
 
-    private void ordenarExperienciaActionPerformed(ActionEvent e) {
-        System.exit(0);
+    private void ordenarEdadActionPerformed(ActionEvent e) throws SQLException, Exception {
+        Logger.setGlobalLogLevel(Level.OFF);
+        String url = "jdbc:h2:file:./BolsaDeEmpleo";
+        ConnectionSource conexion = new JdbcConnectionSource(url);
+        Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
+        QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
+        queryBuilder.orderBy("edad", false); // ordenar por edad de forma ascendente
+        List<Aspirante> aspirantesOrdenados = queryBuilder.query();
+        StringBuilder sb = new StringBuilder();
+        for (Aspirante aspirante : aspirantesOrdenados) {
+            sb.append("Nombre: ").append(aspirante.getNombre()).append(", Edad: ").append(aspirante.getEdad()).append("\n");
+        }
+
+        new InterfazTablaDatos((ArrayList<Aspirante>) aspirantesOrdenados).show();
+
+        conexion.close();
+
     }
+//DONE:Ordenarprofesion
 
-    private void ordenarEdadActionPerformed(ActionEvent e) {
-        System.exit(0);
+    private void ordenarProfesionActionPerformed(ActionEvent e) throws SQLException, Exception {
+        Logger.setGlobalLogLevel(Level.OFF);
+        String url = "jdbc:h2:file:./BolsaDeEmpleo";
+        ConnectionSource conexion = new JdbcConnectionSource(url);
+        Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
 
-    }
+        QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
+        queryBuilder.orderBy("profesion", true); // ordenar por profesion de forma ascendente
+        List<Aspirante> aspirantes = listaAspirantes.query(queryBuilder.prepare());
 
-    private void ordenarProfesionActionPerformed(ActionEvent e) {
-        System.exit(0);
+        StringBuilder sb = new StringBuilder();
+        for (Aspirante aspirante : aspirantes) {
+            sb.append(aspirante.toString()).append("\n");
+        }
+
+        InterfazTablaDatos tabla = new InterfazTablaDatos((ArrayList<Aspirante>) aspirantes);
+        tabla.show();
+
+        conexion.close();
     }
 
     private void cerrarActionPerformed(ActionEvent e) {
