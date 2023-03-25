@@ -178,30 +178,6 @@ public class InterfazHojaDeVida extends JFrame {
                     Integer.parseInt(this.experienciaText.getText()),
                     this.profesionText.getText(),
                     this.telefonoText.getText()));
-            
-            
-            listaAspirantes.create(new Aspirante("001", "Juan", 25, 2, "Ingeniero", "111-1111"));
-listaAspirantes.create(new Aspirante("002", "Maria", 30, 5, "Abogada", "222-2222"));
-listaAspirantes.create(new Aspirante("003", "Pedro", 28, 4, "Ingeniero", "333-3333"));
-listaAspirantes.create(new Aspirante("004", "Luisa", 27, 3, "Arquitecta", "444-4444"));
-listaAspirantes.create(new Aspirante("005", "Jorge", 24, 1, "Programador", "555-5555"));
-listaAspirantes.create(new Aspirante("006", "Lucia", 26, 2, "Contadora", "666-6666"));
-listaAspirantes.create(new Aspirante("007", "Andres", 29, 6, "Ingeniero", "777-7777"));
-listaAspirantes.create(new Aspirante("008", "Ana", 23, 1, "Diseñadora", "888-8888"));
-listaAspirantes.create(new Aspirante("009", "Carlos", 31, 7, "Abogado", "999-9999"));
-listaAspirantes.create(new Aspirante("010", "Sofia", 22, 1, "Ingeniera", "101-0101"));
-listaAspirantes.create(new Aspirante("011", "Miguel", 26, 3, "Programador", "111-1111"));
-listaAspirantes.create(new Aspirante("012", "Carmen", 27, 4, "Ingeniera", "121-2121"));
-listaAspirantes.create(new Aspirante("013", "Jose", 28, 5, "Abogado", "131-3131"));
-listaAspirantes.create(new Aspirante("014", "Laura", 25, 2, "Contadora", "141-4141"));
-listaAspirantes.create(new Aspirante("015", "Diego", 24, 1, "Ingeniero", "151-5151"));
-listaAspirantes.create(new Aspirante("016", "Monica", 23, 1, "Diseñadora", "161-6161"));
-listaAspirantes.create(new Aspirante("017", "Javier", 30, 6, "Ingeniero", "171-7171"));
-listaAspirantes.create(new Aspirante("018", "Paola", 27, 3, "Arquitecta", "181-8181"));
-listaAspirantes.create(new Aspirante("019", "Oscar", 26, 2, "Programador", "191-9191"));
-listaAspirantes.create(new Aspirante("020", "Fabiola", 25, 2, "Ingeniera", "202-0202"));
-listaAspirantes.create(new Aspirante("021", "Gustavo", 29, 4, "Abogado", "212-1212"));
-            
 
             conexion.close();
 
