@@ -6,6 +6,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.logger.Level;
 import com.j256.ormlite.logger.Logger;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import javax.swing.*;
 import java.awt.*;
@@ -25,11 +26,11 @@ public class InterfazTablaDatos extends JFrame {
     JButton cerrarButton = new JButton("cerrar");
     JPanel panelBotones = new JPanel();
     JRadioButton edadButton = new JRadioButton("edad");
-    JRadioButton experienciaButton = new JRadioButton ("experiencia");  
-    JRadioButton profesionButton = new JRadioButton ("profesión");
+    JRadioButton experienciaButton = new JRadioButton("experiencia");
+    JRadioButton profesionButton = new JRadioButton("profesión");
     ButtonGroup buttonGroup = new ButtonGroup();
     JButton ordenar = new JButton("ordenar");
-    
+
     ArrayList<Aspirante> aspirantesBuscados = new ArrayList();
 
     public InterfazTablaDatos(ArrayList<Aspirante> aplicantes) {
@@ -97,28 +98,31 @@ public class InterfazTablaDatos extends JFrame {
             }
 
         });
-        
+
         gbc.gridy = 2;
         edadButton.setSelected(true);
         buttonGroup.add(edadButton);
         panelBotones.add(edadButton, gbc);
-        
+
         gbc.gridy = 3;
         buttonGroup.add(experienciaButton);
         panelBotones.add(experienciaButton, gbc);
-        
+
         gbc.gridy = 4;
         buttonGroup.add(profesionButton);
         panelBotones.add(profesionButton, gbc);
-        
+
         gbc.gridy = 5;
         panelBotones.add(ordenar, gbc);
         ordenar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ordenarActionPerformed(e);
+                try {
+                    ordenarActionPerformed(e);
+                } catch (Exception ex) {
+                    java.util.logging.Logger.getLogger(InterfazTablaDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
             }
         });
-        
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -201,17 +205,49 @@ public class InterfazTablaDatos extends JFrame {
         conexion.close();
 
     }
-    
-    
-    private void ordenarActionPerformed(ActionEvent e){
-        if(edadButton.isSelected() == true){
-            
+
+    private void ordenarActionPerformed(ActionEvent e) throws SQLException, Exception {
+        Logger.setGlobalLogLevel(Level.OFF);
+        String url = "jdbc:h2:file:./BolsaDeEmpleo";
+        ConnectionSource conexion = new JdbcConnectionSource(url);
+        Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
+
+        if (edadButton.isSelected() == true) {
+
+            QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
+            queryBuilder.orderBy("edad", true); // ordenar por edad de forma ascendente
+            List<Aspirante> aspirantesOrdenados = queryBuilder.query();
+            StringBuilder sb = new StringBuilder();
+            for (Aspirante aspirante : aspirantesOrdenados) {
+                sb.append("Nombre: ").append(aspirante.getNombre()).append(", Edad: ").append(aspirante.getEdad()).append("\n");
+            }
+            setVisible(false);
+            new InterfazTablaDatos((ArrayList<Aspirante>) aspirantesOrdenados).show();
+
+        } else if (experienciaButton.isSelected() == true) {
+            QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
+            queryBuilder.orderBy("experiencia", true); // ordenar por experiencia de forma ascendente
+            List<Aspirante> aspirantes = listaAspirantes.query(queryBuilder.prepare());
+            setVisible(false);
+            new InterfazTablaDatos((ArrayList<Aspirante>) aspirantes).show();
+
+        } else if (profesionButton.isSelected() == true) {
+
+            QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
+            queryBuilder.orderBy("profesion", true); // ordenar por profesion de forma ascendente
+            List<Aspirante> aspirantes = listaAspirantes.query(queryBuilder.prepare());
+
+            StringBuilder sb = new StringBuilder();
+            for (Aspirante aspirante : aspirantes) {
+                sb.append(aspirante.toString()).append("\n");
+            }
+            setVisible(false);
+            InterfazTablaDatos tabla = new InterfazTablaDatos((ArrayList<Aspirante>) aspirantes);
+            tabla.show();
         }
-        else if (experienciaButton.isSelected() == true){
-            
-        }else if (profesionButton.isSelected() == true){
-            
-        }
+
+        conexion.close();
+
     }
 
     private void cerrarActionPerformed(ActionEvent e) {

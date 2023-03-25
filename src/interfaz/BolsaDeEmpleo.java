@@ -215,6 +215,8 @@ public class BolsaDeEmpleo extends JFrame {
         conexion.close();
 
     }
+    
+    /*
 //DONE:Ordenarexperiencia
 
     private void ordenarExperienciaActionPerformed(ActionEvent e) throws SQLException, Exception {
@@ -272,7 +274,7 @@ public class BolsaDeEmpleo extends JFrame {
         tabla.show();
 
         conexion.close();
-    }
+    }*/
 
     private void cerrarActionPerformed(ActionEvent e) {
         System.exit(0);
