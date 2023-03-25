@@ -24,6 +24,12 @@ public class InterfazTablaDatos extends JFrame {
     JButton eliminarButton = new JButton("eliminar");
     JButton cerrarButton = new JButton("cerrar");
     JPanel panelBotones = new JPanel();
+    JRadioButton edadButton = new JRadioButton("edad");
+    JRadioButton experienciaButton = new JRadioButton ("experiencia");  
+    JRadioButton profesionButton = new JRadioButton ("profesión");
+    ButtonGroup buttonGroup = new ButtonGroup();
+    JButton ordenar = new JButton("ordenar");
+    
     ArrayList<Aspirante> aspirantesBuscados = new ArrayList();
 
     public InterfazTablaDatos(ArrayList<Aspirante> aplicantes) {
@@ -83,7 +89,7 @@ public class InterfazTablaDatos extends JFrame {
 
         });
 
-        gbc.gridy = 2;
+        gbc.gridy = 6;
         panelBotones.add(cerrarButton, gbc);
         cerrarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -91,6 +97,28 @@ public class InterfazTablaDatos extends JFrame {
             }
 
         });
+        
+        gbc.gridy = 2;
+        edadButton.setSelected(true);
+        buttonGroup.add(edadButton);
+        panelBotones.add(edadButton, gbc);
+        
+        gbc.gridy = 3;
+        buttonGroup.add(experienciaButton);
+        panelBotones.add(experienciaButton, gbc);
+        
+        gbc.gridy = 4;
+        buttonGroup.add(profesionButton);
+        panelBotones.add(profesionButton, gbc);
+        
+        gbc.gridy = 5;
+        panelBotones.add(ordenar, gbc);
+        ordenar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ordenarActionPerformed(e);
+            }
+        });
+        
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -172,6 +200,18 @@ public class InterfazTablaDatos extends JFrame {
 
         conexion.close();
 
+    }
+    
+    
+    private void ordenarActionPerformed(ActionEvent e){
+        if(edadButton.isSelected() == true){
+            
+        }
+        else if (experienciaButton.isSelected() == true){
+            
+        }else if (profesionButton.isSelected() == true){
+            
+        }
     }
 
     private void cerrarActionPerformed(ActionEvent e) {
