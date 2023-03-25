@@ -185,6 +185,7 @@ public class InterfazBuscar extends JFrame {
         try {
             if (text.getText().isEmpty() && !(mayorButton.isSelected() || jovenButton.isSelected())) {
                 JOptionPane.showMessageDialog(null, "El input se encuentra vacio", null, JOptionPane.CLOSED_OPTION);
+
             } else {
                 if (cedulaButton.isSelected()) {
                     //DONE: buscar con cedula   

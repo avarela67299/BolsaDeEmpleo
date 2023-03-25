@@ -17,16 +17,16 @@ import javax.swing.table.TableModel;
 import java.util.List;
 
 public class InterfazTablaDatos extends JFrame {
-    
+
     JTable table = new JTable();
     JScrollPane scrollPane = new JScrollPane(table);
     JButton contratarButton = new JButton("contratar");
     JButton eliminarButton = new JButton("eliminar");
     JButton cerrarButton = new JButton("cerrar");
     JPanel panelBotones = new JPanel();
-    ArrayList <Aspirante> aspirantesBuscados = new ArrayList();
-          
-    public InterfazTablaDatos (ArrayList<Aspirante> aplicantes){
+    ArrayList<Aspirante> aspirantesBuscados = new ArrayList();
+
+    public InterfazTablaDatos(ArrayList<Aspirante> aplicantes) {
         aspirantesBuscados = aplicantes;
         getContentPane().setLayout(new GridBagLayout());
         panelBotones.setLayout(new GridBagLayout());
@@ -47,92 +47,91 @@ public class InterfazTablaDatos extends JFrame {
 
         TableModel tableModel = new DefaultTableModel(data, columnNames);
         table.setModel(tableModel);
-        
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridheight = 3;
-        
+
         getContentPane().add(scrollPane, gbc);
-        
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridheight = 1;
-         gbc.gridwidth = 1;
+        gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.BOTH;
         panelBotones.add(contratarButton, gbc);
         contratarButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 try {
                     contratarActionPerformed(e);
                 } catch (Exception ex) {
                     java.util.logging.Logger.getLogger(InterfazTablaDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
-            }    
+            }
         });
-        
+
         gbc.gridy = 1;
         panelBotones.add(eliminarButton, gbc);
         eliminarButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 try {
                     eliminarActionPerformed(e);
                 } catch (Exception ex) {
                     java.util.logging.Logger.getLogger(InterfazTablaDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
-            } 
-    
+            }
+
         });
-        
+
         gbc.gridy = 2;
         panelBotones.add(cerrarButton, gbc);
         cerrarButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 cerrarActionPerformed(e);
-            } 
+            }
 
-        }); 
-        
+        });
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridheight = 3;
         getContentPane().add(panelBotones);
 
         pack();
-        Dimension screenSize =
-        Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((int) (0.5 * (screenSize.width -
-        getWidth())), (int) (0.5 * (screenSize.height -
-        getHeight())), getWidth(), getHeight());  
-        
+        Dimension screenSize
+                = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((int) (0.5 * (screenSize.width
+                - getWidth())), (int) (0.5 * (screenSize.height
+                - getHeight())), getWidth(), getHeight());
+
     }
-    
+
     private void contratarActionPerformed(ActionEvent e) throws SQLException, Exception {
-        
+
         int fila = table.getSelectedRow();
 
         Logger.setGlobalLogLevel(Level.OFF);
         String url = "jdbc:h2:file:./BolsaDeEmpleo";
         ConnectionSource conexion = new JdbcConnectionSource(url);
         Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
-        
-        if (fila==-1) {
+
+        if (fila == -1) {
             JOptionPane.showMessageDialog(null, "seleccione una fila", null, JOptionPane.ERROR_MESSAGE);
-        }
-        else{
-            
+        } else {
+
             Aspirante contratado = listaAspirantes.queryForId(aspirantesBuscados.get(fila).getCedula());
-            
-            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de contratar este aspirante " + contratado.getNombre()+"?");
-            if (confirmacion == JOptionPane.YES_OPTION){
-                listaAspirantes.delete(contratado);   
+
+            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de contratar este aspirante " + contratado.getNombre() + "?");
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                listaAspirantes.delete(contratado);
             }
-          setVisible(false); 
+            setVisible(false);
         }
-        
+
         conexion.close();
-        
+
     }
-    
+
     private void eliminarActionPerformed(ActionEvent e) throws SQLException, Exception {
         int fila = table.getSelectedRow();
         System.out.println(fila);
@@ -141,45 +140,42 @@ public class InterfazTablaDatos extends JFrame {
         String url = "jdbc:h2:file:./BolsaDeEmpleo";
         ConnectionSource conexion = new JdbcConnectionSource(url);
         Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
-        
-        if (fila==-1) {
-            try{
+
+        if (fila == -1) {
+            try {
                 List<Aspirante> eliminados = new ArrayList();
                 String entrada = JOptionPane.showInputDialog(null, "Escriba la experiencia mínima. Se eliminarán aquellos con menos experiencia");
                 int edadMinima = Integer.parseInt(entrada);
-            
-                
+
                 int numAspirantes = (int) listaAspirantes.countOf();
-            
+
                 for (int i = 0; i < numAspirantes; i++) {
                     Aspirante aEliminar = listaAspirantes.queryForAll().get(i);
-                    if (aEliminar.getExperiencia() < edadMinima){
+                    if (aEliminar.getExperiencia() < edadMinima) {
                         eliminados.add(aEliminar);
                     }
                 }
                 listaAspirantes.delete(eliminados);
-            }
-            catch(Exception x){
+            } catch (Exception x) {
                 JOptionPane.showMessageDialog(null, "input inválido", null, JOptionPane.ERROR_MESSAGE);
             }
             setVisible(false);
-            
-        }
-        else{
+
+        } else {
             Aspirante contratado = listaAspirantes.queryForId(aspirantesBuscados.get(fila).getCedula());
-            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de elimirar el aspirante " + contratado.getNombre()+"?");
-            if (confirmacion == JOptionPane.YES_OPTION){
-                listaAspirantes.delete(contratado);   
+            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de elimirar el aspirante " + contratado.getNombre() + "?");
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                listaAspirantes.delete(contratado);
             }
-          setVisible(false); 
+            setVisible(false);
         }
-        
-        conexion.close(); 
-        
+
+        conexion.close();
+
     }
-    
+
     private void cerrarActionPerformed(ActionEvent e) {
-        setVisible(false);          
+        setVisible(false);
     }
-    
+
 }

@@ -12,7 +12,6 @@ import com.j256.ormlite.logger.Level;
 import com.j256.ormlite.logger.Logger;
 import com.j256.ormlite.support.ConnectionSource;
 
-
 public class InterfazHojaDeVida extends JFrame {
 
     JLabel titulo = new JLabel();

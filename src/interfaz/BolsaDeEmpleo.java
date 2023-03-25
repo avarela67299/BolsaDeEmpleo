@@ -99,6 +99,8 @@ public class BolsaDeEmpleo extends JFrame {
                     listaTotalActionPerformed(e);
                 } catch (SQLException ex) {
                     java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
             }
         });
@@ -113,6 +115,8 @@ public class BolsaDeEmpleo extends JFrame {
                     listaCedulasActionPerformed(e);
                 } catch (SQLException ex) {
                     java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
             }
         });
@@ -126,6 +130,8 @@ public class BolsaDeEmpleo extends JFrame {
                 try {
                     promedioActionPerformed(e);
                 } catch (SQLException ex) {
+                    java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (Exception ex) {
                     java.util.logging.Logger.getLogger(BolsaDeEmpleo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
             }
@@ -156,7 +162,7 @@ public class BolsaDeEmpleo extends JFrame {
         new InterfazHojaDeVida().show();
     }
 
-    private void listaCedulasActionPerformed(ActionEvent e) throws SQLException {
+    private void listaCedulasActionPerformed(ActionEvent e) throws SQLException, Exception {
 
         Logger.setGlobalLogLevel(Level.OFF);
         String url = "jdbc:h2:file:./BolsaDeEmpleo";
@@ -164,16 +170,17 @@ public class BolsaDeEmpleo extends JFrame {
         Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
 
         new InterfazTablaCedulas((ArrayList<Aspirante>) listaAspirantes.queryForAll()).show();
-
+        conexion.close();
     }
 
     //se agrega lista desde la base de datos
-    private void listaTotalActionPerformed(ActionEvent e) throws SQLException {
+    private void listaTotalActionPerformed(ActionEvent e) throws SQLException, Exception {
         Logger.setGlobalLogLevel(Level.OFF);
         String url = "jdbc:h2:file:./BolsaDeEmpleo";
         ConnectionSource conexion = new JdbcConnectionSource(url);
         Dao<Aspirante, String> listaAspirantes = DaoManager.createDao(conexion, Aspirante.class);
         new InterfazTablaDatos((ArrayList<Aspirante>) listaAspirantes.queryForAll()).show();
+        conexion.close();
     }
 
     private void buscarActionPerformed(ActionEvent e) {
@@ -182,7 +189,7 @@ public class BolsaDeEmpleo extends JFrame {
     }
 //DONE:PROMEDIO
 
-    private void promedioActionPerformed(ActionEvent e) throws SQLException {
+    private void promedioActionPerformed(ActionEvent e) throws SQLException, Exception {
 
         Logger.setGlobalLogLevel(Level.OFF);
         String url = "jdbc:h2:file:./BolsaDeEmpleo";
@@ -204,7 +211,20 @@ public class BolsaDeEmpleo extends JFrame {
         } catch (SQLException f) {
             JOptionPane.showMessageDialog(null, "Error al calcular el promedio de edad: " + f.getMessage(), null, JOptionPane.ERROR_MESSAGE);
         }
+        conexion.close();
+    }
 
+    private void ordenarExperienciaActionPerformed(ActionEvent e) {
+        System.exit(0);
+    }
+
+    private void ordenarEdadActionPerformed(ActionEvent e) {
+        System.exit(0);
+
+    }
+
+    private void ordenarProfesionActionPerformed(ActionEvent e) {
+        System.exit(0);
     }
 
     private void cerrarActionPerformed(ActionEvent e) {
