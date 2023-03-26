@@ -215,7 +215,7 @@ public class InterfazTablaDatos extends JFrame {
         if (edadButton.isSelected() == true) {
 
             QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
-            queryBuilder.orderBy("edad", true); // ordenar por edad de forma ascendente
+            queryBuilder.orderBy("edad", true);
             List<Aspirante> aspirantesOrdenados = queryBuilder.query();
             StringBuilder sb = new StringBuilder();
             for (Aspirante aspirante : aspirantesOrdenados) {
@@ -226,7 +226,7 @@ public class InterfazTablaDatos extends JFrame {
 
         } else if (experienciaButton.isSelected() == true) {
             QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
-            queryBuilder.orderBy("experiencia", true); // ordenar por experiencia de forma ascendente
+            queryBuilder.orderBy("experiencia", true);
             List<Aspirante> aspirantes = listaAspirantes.query(queryBuilder.prepare());
             setVisible(false);
             new InterfazTablaDatos((ArrayList<Aspirante>) aspirantes).show();
@@ -234,7 +234,7 @@ public class InterfazTablaDatos extends JFrame {
         } else if (profesionButton.isSelected() == true) {
 
             QueryBuilder<Aspirante, String> queryBuilder = listaAspirantes.queryBuilder();
-            queryBuilder.orderBy("profesion", true); // ordenar por profesion de forma ascendente
+            queryBuilder.orderBy("profesion", true); 
             List<Aspirante> aspirantes = listaAspirantes.query(queryBuilder.prepare());
 
             StringBuilder sb = new StringBuilder();
